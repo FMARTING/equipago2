@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<!-- Agregar dropdown en la parte de ingreso de pagos para cada tipo de pago, e.g. gasots de partido, incsripcion, etc.-->
+<html>
+	<head>
+		<title>Finanzas {{equipo}}</title>
+		<link href="styles/front_style.css" rel="stylesheet">
+	</head>
+	<body>
+		<div>
+				<a href="/pago" class="myButton">Ingresar un pago</a>
+				<a href="/gastos_f" class="myButton">Revisar los gastos fijos de tu equipo</a>
+				<a href="/gastos_p" class="myButton">Revisar los gastos por partido de tu equipo</a>
+				<a href="/logout" class="myButton">Cerrar tu sesión</a>
+		</div>
+		<h1> Finanzas de {{equipo}} </h1>
+					
+			<div id="B_Izquierda">
+				<div>
+				<h2>Saldos mensuales del equipo</h2>
+				<table>
+					<tr>
+						<td rowspan="1"><strong>Nombre</strong></td>
+						<td colspan="1"><strong>Debe</strong></td>
+						<td colspan="1"><strong>Haber</strong></td> 
+						<td><strong>Balance</strong></td>
+					</tr>
+					{% for i in cursorNombres %}
+					<tr>
+						<td>{{i.nombre}}</td>
+						<td>{{gasto_mes_jugador + i.gastos_p1 + i.gastos_p2 + i.gastos_p3 + i.gastos_p4 + i.gastos_p5 + i.gastos_p6 + i.gastos_p7 + i.gastos_p8 + i.gastos_p9 + i.gastos_p10 + i.gastos_p11 + i.gastos_p12}}</td>
+						<td>{{i.total_pagos}}</td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td>Total del año</td>
+						<td>{{deudaTotal}}</td>
+						<td>{{pagosTotal}}</td>
+						{% if saldoTotal <0 %}
+						<td style="color:red">{{saldoTotal}}</td>
+						{% else %}
+						<td style="color:blue">{{saldoTotal}}</td>
+						{% endif %}
+					</tr>
+				</table>
+				<br>
+				<br>
+				</div>
+				<div>
+					<h2>Historial de pagos del equipo:</h2>
+					<table>
+						<tr>
+							<td><strong>AÑO</strong></td>
+							<td><strong>MES</strong></td>
+							<td><strong>JUGADOR</strong></td> 
+							<td><strong>PAGO</strong></td>
+							<td><strong>DESCRIPCION</strong></td>
+						</tr>
+						{% for i in cursorPago %}
+						<tr>
+							<td>{{i.year}}</td>
+							<td>{{i.month}}</td>
+							<td>{{i.nombre}}</td>
+							{% if i.monto <0 %}
+							<td style="color:red">{{i.monto}}</td>
+							{% else %}
+							<td style="color:blue">{{i.monto}}</td>
+							{% endif %}
+							<td>{{i.comentario}}</td>
+						</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			<div id="B_Derecha">
+				{% autoescape false %}
+					{{cal}}
+				{% endautoescape %}
+				<p> Mon = Lunes, Tue = Martes, Wed = Miercoles, Thu = Jueves, Fri = Viernes, Sat = Sabado y Sun = Domingo</p>
+				<br>
+				<p> January = Enero, February = Febrero, March = Marzo, April = Abril, June = Junio, July = Julio, August = Agosto</p>
+				<p> September = Septiembre, October = Octubre, November = Noviembre y December = Diciembre</p>
+			</div>
+	</body>
+</html>
